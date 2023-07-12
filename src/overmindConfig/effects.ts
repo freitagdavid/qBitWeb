@@ -1,4 +1,3 @@
-import { QBittorrent } from '@ctrl/qbittorrent';
 import { MainData } from '../types/qbittorrent';
 import { QbTorrent } from './../components/api/models/torrents';
 import axios from "axios";
@@ -11,15 +10,6 @@ const axiosClient = axios.create({
     },
 });
 
-let qbittorrentClient: QBittorrent | null = null;
-
-const getQbittorrentClient = (baseUrl: string, userName: string, password: string) => {
-    return QBittorrent.connect(baseUrl, userName, password);
-};
-
-
-// const get = (url, payload={}) => axiosClient.get(url, payload)
-// const post = (url, payload={}) => axiosClient.post(url, payload)
 
 type PostLogin = (username: string, password: string) => Promise<void>;
 
@@ -49,9 +39,10 @@ interface GetMainDataResponse {
 export interface QbApi {
     getVersion: () => Promise<Version>;
     postLogin: PostLogin;
-    getMainData: (rid: string) => Promise<GetMainDataResponse>;
-    startTorrent: (hash: string) => Promise<void>;
-    pauseTorrent: (hash: string) => Promise<void>;
+    getMainData: (rid: number) => Promise<GetMainDataResponse>;
+    startTorrents: (hashes: string[]) => Promise<void>;
+    pauseTorrents: (hashes: string[]) => Promise<void>;
+    removeTorrents: (hashes: string[], deleteFiles: boolean) => Promise<void>;
 }
 
 export const qbApi: QbApi = {
@@ -69,13 +60,17 @@ export const qbApi: QbApi = {
         return axiosClient.get(`/sync/maindata?rid=${rid}`);
     },
 
-    async pauseTorrent(hash) {
-        return axiosClient.post(`/torrents/pause`, {hashes: hash});
+    async pauseTorrents(hashes) {
+        return axiosClient.post(`/torrents/pause`, {hashes: hashes});
     },
 
-    async startTorrent(hash) {
-        return axiosClient.post(`/torrents/resume`, {hashes: hash});
+    async startTorrents(hashes) {
+        return axiosClient.post(`/torrents/resume`, {hashes: hashes});
     },
+
+    async removeTorrents(hashes, deleteFiles) {
+        return axiosClient.post(`/torrents/delete`, {hashes: hashes, deleteFiles: deleteFiles});
+    }
 };
 
 export interface Effects {
