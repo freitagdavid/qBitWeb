@@ -303,6 +303,10 @@ class Qbittorrent {
     async getAllRssItems() {
         return this.axiosClient.get("/rss/items");
     }
+
+    async setRssRead() {
+        return this.axiosClient.post('/rss/markAsRead')
+    }
 }
 
 export default Qbittorrent;
