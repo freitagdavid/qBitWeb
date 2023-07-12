@@ -1,6 +1,7 @@
 import { derived } from "overmind";
 import { MainData } from "../types/qbittorrent";
 import { Categories } from "./effects";
+import { Torrent } from "../components/api/types";
 
 interface Trackers {
     [key: string]: string[];
@@ -11,11 +12,11 @@ export interface State {
     torrents: any[];
     trackers: Trackers;
     categories: Categories | null;
-    selectedTorrent: any;
     baseUrl: string;
     pollingTime: number;
     version: string | null;
     mainData: MainData | null;
+    selectedTorrent: Torrent | null;
 }
 
 export const state: State = {
@@ -35,5 +36,5 @@ export const state: State = {
     selectedTorrent: null,
     baseUrl: "http://localhost:8081/api/v2",
     pollingTime: 1000,
-    version: null
+    version: null,
 }
