@@ -14,13 +14,13 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@ctrl/qbittorrent": "^6.1.0",
         "@emotion/styled": "^11.11.0",
         "@types/axios": "^0.14.0",
         "@types/baseui": "^8.0.0",
         "autoprefixer": "^10.4.14",
         "axios": "^1.4.0",
         "baseui": "^13.0.0",
+        "got": "^13.0.0",
         "overmind": "^28.0.3",
         "overmind-react": "^29.0.3",
         "postcss": "^8.4.25",
