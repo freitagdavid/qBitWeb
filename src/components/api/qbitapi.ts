@@ -1,9 +1,10 @@
 import axios, { Axios, AxiosInstance } from "axios";
+import { Hashes, Preferences } from "./types";
 
 class Qbittorrent {
     axiosClient: AxiosInstance;
     serverUrl: string;
-    
+
     constructor(serverUrl: string) {
         this.serverUrl = serverUrl;
         this.axiosClient = axios.create({
@@ -14,10 +15,12 @@ class Qbittorrent {
             },
         });
     }
-    
 
     async login(username: string, password: string) {
-        return this.axiosClient.post("/auth/login", { username: username, password: password });
+        return this.axiosClient.post("/auth/login", {
+            username: username,
+            password: password,
+        });
     }
 
     async logout() {
@@ -44,7 +47,7 @@ class Qbittorrent {
         return this.axiosClient.get("/app/preferences");
     }
 
-    async setPreferences(payload: any) {
+    async setPreferences(payload: Preferences) {
         return this.axiosClient.post("/app/setPreferences", payload);
     }
 
@@ -60,7 +63,7 @@ class Qbittorrent {
         return this.axiosClient.get("/log/peers");
     }
 
-    async getMainData(rid=0) {
+    async getMainData(rid = 0) {
         return this.axiosClient.get(`/sync/maindata?rid=${rid}`);
     }
 
@@ -85,7 +88,9 @@ class Qbittorrent {
     }
 
     async setDownloadLimit(limit: number) {
-        return this.axiosClient.post(`/transfer/setDownloadLimit?limit=${limit}`);
+        return this.axiosClient.post(
+            `/transfer/setDownloadLimit?limit=${limit}`
+        );
     }
 
     async getUploadLimit() {
@@ -128,24 +133,34 @@ class Qbittorrent {
         return this.axiosClient.get(`/torrents/pieceHashes?hash=${hash}`);
     }
 
-    async pauseTorrents(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/pause?hashes=${hashes.join(",")}`);
+    async pauseTorrents(hashes: Hashes) {
+        return this.axiosClient.post(`/torrents/pause`, { hashes: hashes });
     }
 
     async resumeTorrents(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/resume?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/resume?hashes=${hashes.join(",")}`
+        );
     }
 
-    async deleteTorrents(hashes: string[], deleteFiles=false) {
-        return this.axiosClient.get(`/torrents/delete?hashes=${hashes.join(",")}&deleteFiles=${deleteFiles}`);
+    async deleteTorrents(hashes: string[], deleteFiles = false) {
+        return this.axiosClient.get(
+            `/torrents/delete?hashes=${hashes.join(
+                ","
+            )}&deleteFiles=${deleteFiles}`
+        );
     }
 
     async recheckTorrents(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/recheck?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/recheck?hashes=${hashes.join(",")}`
+        );
     }
 
     async reannounceTorrents(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/reannounce?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/reannounce?hashes=${hashes.join(",")}`
+        );
     }
 
     async addNewTorrents(payload: any) {
@@ -153,39 +168,58 @@ class Qbittorrent {
     }
 
     async setTorrentTrackers(hash: string, payload: any) {
-        return this.axiosClient.post(`/torrents/addTrackers?hash=${hash}`, payload);
+        return this.axiosClient.post(
+            `/torrents/addTrackers?hash=${hash}`,
+            payload
+        );
     }
 
     async editTracker(hash: string, origUrl: string, newUrl: string) {
-        return this.axiosClient.get(`/torrents/editTracker?hash=${hash}&origUrl=${origUrl}&newUrl=${newUrl}`);
+        return this.axiosClient.get(
+            `/torrents/editTracker?hash=${hash}&origUrl=${origUrl}&newUrl=${newUrl}`
+        );
     }
 
     async removeTrackers(hash: string, urls: string[]) {
-        return this.axiosClient.get(`/torrents/removeTrackers?hash=${hash}&urls=${urls.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/removeTrackers?hash=${hash}&urls=${urls.join(",")}`
+        );
     }
 
     async addTorrentPeers(hash: string, peers: string[]) {
-        return this.axiosClient.get(`/torrents/addPeers?hash=${hash}&peers=${peers.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/addPeers?hash=${hash}&peers=${peers.join(",")}`
+        );
     }
 
     async increaseTorrentPriority(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/increasePrio?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/increasePrio?hashes=${hashes.join(",")}`
+        );
     }
 
     async decreaseTorrentPriority(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/decreasePrio?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/decreasePrio?hashes=${hashes.join(",")}`
+        );
     }
 
     async maxTorrentPriority(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/topPrio?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/topPrio?hashes=${hashes.join(",")}`
+        );
     }
 
     async minTorrentPriority(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/bottomPrio?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/bottomPrio?hashes=${hashes.join(",")}`
+        );
     }
 
     async setFilePriority(hash: string, id: number, priority: number) {
-        return this.axiosClient.get(`/torrents/filePrio?hash=${hash}&id=${id}&priority=${priority}`);
+        return this.axiosClient.get(
+            `/torrents/filePrio?hash=${hash}&id=${id}&priority=${priority}`
+        );
     }
 
     async getTorrentDownloadLimit(hash: string) {
@@ -193,11 +227,15 @@ class Qbittorrent {
     }
 
     async setTorrentDownloadLimit(hash: string, limit: number) {
-        return this.axiosClient.get(`/torrents/setDownloadLimit?hash=${hash}&limit=${limit}`);
+        return this.axiosClient.get(
+            `/torrents/setDownloadLimit?hash=${hash}&limit=${limit}`
+        );
     }
 
     async setTorrentShareLimit(hash: string, limit: number) {
-        return this.axiosClient.get(`/torrents/setShareLimits?hash=${hash}&limit=${limit}`);
+        return this.axiosClient.get(
+            `/torrents/setShareLimits?hash=${hash}&limit=${limit}`
+        );
     }
 
     async getTorrentUploadLimit(hash: string) {
@@ -205,19 +243,31 @@ class Qbittorrent {
     }
 
     async setTorrentUploadLimit(hash: string, limit: number) {
-        return this.axiosClient.get(`/torrents/setUploadLimit?hash=${hash}&limit=${limit}`);
+        return this.axiosClient.get(
+            `/torrents/setUploadLimit?hash=${hash}&limit=${limit}`
+        );
     }
 
     async setTorrentLocation(hashes: string[], location: string) {
-        return this.axiosClient.get(`/torrents/setLocation?hashes=${hashes.join(",")}&location=${location}`);
+        return this.axiosClient.get(
+            `/torrents/setLocation?hashes=${hashes.join(
+                ","
+            )}&location=${location}`
+        );
     }
 
     async setTorrentName(hash: string, name: string) {
-        return this.axiosClient.get(`/torrents/rename?hash=${hash}&name=${name}`);
+        return this.axiosClient.get(
+            `/torrents/rename?hash=${hash}&name=${name}`
+        );
     }
 
     async setTorrentCategory(hashes: string[], category: string) {
-        return this.axiosClient.get(`/torrents/setCategory?hashes=${hashes.join(",")}&category=${category}`);
+        return this.axiosClient.get(
+            `/torrents/setCategory?hashes=${hashes.join(
+                ","
+            )}&category=${category}`
+        );
     }
 
     async getCategories() {
@@ -225,23 +275,37 @@ class Qbittorrent {
     }
 
     async addCategory(category: string) {
-        return this.axiosClient.get(`/torrents/createCategory?category=${category}`);
+        return this.axiosClient.get(
+            `/torrents/createCategory?category=${category}`
+        );
     }
 
     async editCategory(category: string, savePath: string) {
-        return this.axiosClient.get(`/torrents/editCategory?category=${category}&savePath=${savePath}`);
+        return this.axiosClient.get(
+            `/torrents/editCategory?category=${category}&savePath=${savePath}`
+        );
     }
 
     async removeCategory(category: string) {
-        return this.axiosClient.get(`/torrents/removeCategories?categories=${category}`);
+        return this.axiosClient.get(
+            `/torrents/removeCategories?categories=${category}`
+        );
     }
 
     async addTorrentTags(hashes: string[], tags: string[]) {
-        return this.axiosClient.get(`/torrents/addTags?hashes=${hashes.join(",")}&tags=${tags.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/addTags?hashes=${hashes.join(",")}&tags=${tags.join(
+                ","
+            )}`
+        );
     }
 
     async removeTorrentTags(hashes: string[], tags: string[]) {
-        return this.axiosClient.get(`/torrents/removeTags?hashes=${hashes.join(",")}&tags=${tags.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/removeTags?hashes=${hashes.join(",")}&tags=${tags.join(
+                ","
+            )}`
+        );
     }
 
     async getTags() {
@@ -249,39 +313,61 @@ class Qbittorrent {
     }
 
     async createTags(tags: string[]) {
-        return this.axiosClient.get(`/torrents/createTags?tags=${tags.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/createTags?tags=${tags.join(",")}`
+        );
     }
 
     async deleteTags(tags: string[]) {
-        return this.axiosClient.get(`/torrents/deleteTags?tags=${tags.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/deleteTags?tags=${tags.join(",")}`
+        );
     }
 
     async setAutomaticTorrentManagement(hashes: string[], enable: boolean) {
-        return this.axiosClient.get(`/torrents/setAutoManagement?hashes=${hashes.join(",")}&enable=${enable}`);
+        return this.axiosClient.get(
+            `/torrents/setAutoManagement?hashes=${hashes.join(
+                ","
+            )}&enable=${enable}`
+        );
     }
 
     async toggleSequentialDownload(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/toggleSequentialDownload?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/toggleSequentialDownload?hashes=${hashes.join(",")}`
+        );
     }
 
     async toggleFirstLastPiecePriority(hashes: string[]) {
-        return this.axiosClient.get(`/torrents/toggleFirstLastPiecePrio?hashes=${hashes.join(",")}`);
+        return this.axiosClient.get(
+            `/torrents/toggleFirstLastPiecePrio?hashes=${hashes.join(",")}`
+        );
     }
 
     async setForceStart(hashes: string[], value: boolean) {
-        return this.axiosClient.get(`/torrents/setForceStart?hashes=${hashes.join(",")}&value=${value}`);
+        return this.axiosClient.get(
+            `/torrents/setForceStart?hashes=${hashes.join(",")}&value=${value}`
+        );
     }
 
     async setSuperSeeding(hashes: string[], value: boolean) {
-        return this.axiosClient.get(`/torrents/setSuperSeeding?hashes=${hashes.join(",")}&value=${value}`);
+        return this.axiosClient.get(
+            `/torrents/setSuperSeeding?hashes=${hashes.join(
+                ","
+            )}&value=${value}`
+        );
     }
 
     async renameFile(hash: string, id: number, name: string) {
-        return this.axiosClient.get(`/torrents/renameFile?hash=${hash}&id=${id}&name=${name}`);
+        return this.axiosClient.get(
+            `/torrents/renameFile?hash=${hash}&id=${id}&name=${name}`
+        );
     }
 
     async renameFolder(hash: string, id: number, name: string) {
-        return this.axiosClient.get(`/torrents/renameFolder?hash=${hash}&id=${id}&name=${name}`);
+        return this.axiosClient.get(
+            `/torrents/renameFolder?hash=${hash}&id=${id}&name=${name}`
+        );
     }
 
     async addRssFolder(name: string, path: string) {
@@ -297,7 +383,9 @@ class Qbittorrent {
     }
 
     async moveRssItem(id: number, destination: string) {
-        return this.axiosClient.get(`/rss/moveItem?id=${id}&destination=${destination}`);
+        return this.axiosClient.get(
+            `/rss/moveItem?id=${id}&destination=${destination}`
+        );
     }
 
     async getAllRssItems() {
@@ -305,19 +393,21 @@ class Qbittorrent {
     }
 
     async setRssRead() {
-        return this.axiosClient.post('/rss/markAsRead')
+        return this.axiosClient.post("/rss/markAsRead");
     }
 
     async refreshRssItems() {
-        return this.axiosClient.post('/rss/refresh');
+        return this.axiosClient.post("/rss/refresh");
     }
 
     async setRssAutoDownloadingRules(rules: any[]) {
-        return this.axiosClient.post('/rss/setRule', rules);
+        return this.axiosClient.post("/rss/setRule", rules);
     }
 
     async renameRssAutoDownloadingRule(ruleIndex: number, ruleName: string) {
-        return this.axiosClient.get(`/rss/renameRule?ruleIndex=${ruleIndex}&ruleName=${ruleName}`);
+        return this.axiosClient.get(
+            `/rss/renameRule?ruleIndex=${ruleIndex}&ruleName=${ruleName}`
+        );
     }
 
     async removeRssAutoDownloadingRule(ruleIndex: number) {
@@ -329,7 +419,9 @@ class Qbittorrent {
     }
 
     async getMatchingArticles(ruleIndex: number) {
-        return this.axiosClient.get(`/rss/matchingArticles?ruleIndex=${ruleIndex}`);
+        return this.axiosClient.get(
+            `/rss/matchingArticles?ruleIndex=${ruleIndex}`
+        );
     }
 
     async startSearch() {
