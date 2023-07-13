@@ -9,7 +9,7 @@ interface Trackers {
 
 export interface State {
     authenticated: boolean;
-    torrents: any[];
+    torrents: Torrent[];
     trackers: Trackers;
     categories: Categories | null;
     baseUrl: string;
