@@ -1,5 +1,4 @@
 import { MainData } from '../types/qbittorrent';
-import { QbTorrent } from './../components/api/models/torrents';
 import axios from "axios";
 
 const axiosClient = axios.create({
@@ -15,14 +14,6 @@ type PostLogin = (username: string, password: string) => Promise<void>;
 
 interface Version {
     data: string | null;
-}
-
-interface Torrents {
-    [key: string]: QbTorrent;
-}
-
-interface Trackers {
-    [key: string]: string[];
 }
 
 export interface Categories {
