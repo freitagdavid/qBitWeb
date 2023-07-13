@@ -63,7 +63,7 @@ export interface Torrent {
   /**
    * Torrent priority (-1 if queuing is disabled)
    */
-  priority: number;
+  priority: number | null;
   /**
    * Torrent seeds connected to
    */
@@ -1286,3 +1286,5 @@ export interface TorrentPeer {
   up_speed?: number;
   uploaded?: number;
 }
+
+export type TorrentHash = string;
