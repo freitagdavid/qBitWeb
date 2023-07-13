@@ -22,16 +22,16 @@ export interface BuildInfo {
 }
 
 export type TorrentFilters =
-  | 'all'
-  | 'downloading'
-  | 'completed'
-  | 'paused'
-  | 'active'
-  | 'inactive'
-  | 'resumed'
-  | 'stalled'
-  | 'stalled_uploading'
-  | 'stalled_downloading';
+  | "all"
+  | "downloading"
+  | "completed"
+  | "paused"
+  | "active"
+  | "inactive"
+  | "resumed"
+  | "stalled"
+  | "stalled_uploading"
+  | "stalled_downloading";
 
 export interface Torrent {
   /**
@@ -198,84 +198,84 @@ export enum TorrentState {
   /**
    * Some error occurred, applies to paused torrents
    */
-  Error = 'error',
+  Error = "error",
   /**
    * Torrent is paused and has finished downloading
    */
-  PausedUP = 'pausedUP',
+  PausedUP = "pausedUP",
   /**
    * Torrent is paused and has NOT finished downloading
    */
-  PausedDL = 'pausedDL',
+  PausedDL = "pausedDL",
   /**
    * Queuing is enabled and torrent is queued for upload
    */
-  QueuedUP = 'queuedUP',
+  QueuedUP = "queuedUP",
   /**
    * Queuing is enabled and torrent is queued for download
    */
-  QueuedDL = 'queuedDL',
+  QueuedDL = "queuedDL",
   /**
    * Torrent is being seeded and data is being transferred
    */
-  Uploading = 'uploading',
+  Uploading = "uploading",
   /**
    * Torrent is being seeded, but no connection were made
    */
-  StalledUP = 'stalledUP',
+  StalledUP = "stalledUP",
   /**
    * Torrent has finished downloading and is being checked; this status also applies to preallocation (if enabled) and checking resume data on qBt startup
    */
-  CheckingUP = 'checkingUP',
+  CheckingUP = "checkingUP",
   /**
    * Same as checkingUP, but torrent has NOT finished downloading
    */
-  CheckingDL = 'checkingDL',
+  CheckingDL = "checkingDL",
   /**
    * Torrent is being downloaded and data is being transferred
    */
-  Downloading = 'downloading',
+  Downloading = "downloading",
   /**
    * Torrent is being downloaded, but no connection were made
    */
-  StalledDL = 'stalledDL',
+  StalledDL = "stalledDL",
   /**
    * Torrent is forced to downloading to ignore queue limit
    */
-  ForcedDL = 'forcedDL',
+  ForcedDL = "forcedDL",
   /**
    * Forced Downloading Metadata
    */
-  ForcedMetaDL = 'ForcedMetaDL',
+  ForcedMetaDL = "ForcedMetaDL",
   /**
    * Torrent is forced to uploading and ignore queue limit
    */
-  ForcedUP = 'forcedUP',
+  ForcedUP = "forcedUP",
   /**
    * Torrent has just started downloading and is fetching metadata
    */
-  MetaDL = 'metaDL',
+  MetaDL = "metaDL",
   /**
    * Torrent is allocating disk space for download
    */
-  Allocating = 'allocating',
-  QueuedForChecking = 'queuedForChecking',
+  Allocating = "allocating",
+  QueuedForChecking = "queuedForChecking",
   /**
    * Checking resume data on qBt startup
    */
-  CheckingResumeData = 'checkingResumeData',
+  CheckingResumeData = "checkingResumeData",
   /**
    * Torrent is moving to another location
    */
-  Moving = 'moving',
+  Moving = "moving",
   /**
    * Unknown status
    */
-  Unknown = 'unknown',
+  Unknown = "unknown",
   /**
    * Torrent data files is missing
    */
-  MissingFiles = 'missingFiles',
+  MissingFiles = "missingFiles",
 }
 
 export interface TorrentProperties {
@@ -543,7 +543,7 @@ export enum TorrentPieceState {
   Downloaded = 2,
 }
 
-type TrueFalseStr = 'true' | 'false';
+type TrueFalseStr = "true" | "false";
 
 export interface AddTorrentOptions {
   /**
@@ -573,7 +573,7 @@ export interface AddTorrentOptions {
    * Control filesystem structure for content (added in Web API v2.7)
    * Migrating from rootFolder example rootFolder ? 'Original' :  'NoSubfolder'
    */
-  contentLayout: 'Original' | 'Subfolder' | 'NoSubfolder';
+  contentLayout: "Original" | "Subfolder" | "NoSubfolder";
   /**
    * Rename torrent
    */
@@ -1266,6 +1266,9 @@ export interface TorrentPeersResponse {
   rid: number;
   show_flags: boolean;
 }
+
+type Hash = string;
+export type Hashes = Hash[];
 
 type Peers = Record<string, TorrentPeer>;
 

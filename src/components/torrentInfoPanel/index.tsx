@@ -1,3 +1,3 @@
 const TorrentInfoPanel = (props: TorrentInfoPanelProps) => {
-    return (<div>Hello</div>)
+  return <div>Hello</div>;
 };

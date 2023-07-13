@@ -11,7 +11,8 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "prettier": "prettier -w ./"
     },
     "dependencies": {
         "@emotion/styled": "^11.11.0",
@@ -25,6 +26,7 @@
         "overmind": "^28.0.3",
         "overmind-react": "^29.0.3",
         "postcss": "^8.4.25",
+        "prettier": "^3.0.0",
         "pretty-bytes": "^6.1.0",
         "primeflex": "^3.3.1",
         "primeicons": "^6.0.1",
