@@ -307,6 +307,70 @@ class Qbittorrent {
     async setRssRead() {
         return this.axiosClient.post('/rss/markAsRead')
     }
+
+    async refreshRssItems() {
+        return this.axiosClient.post('/rss/refresh');
+    }
+
+    async setRssAutoDownloadingRules(rules: any[]) {
+        return this.axiosClient.post('/rss/setRule', rules);
+    }
+
+    async renameRssAutoDownloadingRule(ruleIndex: number, ruleName: string) {
+        return this.axiosClient.get(`/rss/renameRule?ruleIndex=${ruleIndex}&ruleName=${ruleName}`);
+    }
+
+    async removeRssAutoDownloadingRule(ruleIndex: number) {
+        return this.axiosClient.get(`/rss/removeRule?ruleIndex=${ruleIndex}`);
+    }
+
+    async getAllRssAutoDownloadingRules() {
+        return this.axiosClient.get("/rss/rules");
+    }
+
+    async getMatchingArticles(ruleIndex: number) {
+        return this.axiosClient.get(`/rss/matchingArticles?ruleIndex=${ruleIndex}`);
+    }
+
+    async startSearch() {
+        return this.axiosClient.get("/search/start");
+    }
+
+    async stopSearch() {
+        return this.axiosClient.get("/search/stop");
+    }
+
+    async searchStatus() {
+        return this.axiosClient.get("/search/status");
+    }
+
+    async getSearchResults() {
+        return this.axiosClient.get("/search/results");
+    }
+
+    async deleteSearch() {
+        return this.axiosClient.get("/search/delete");
+    }
+
+    async getSearchPlugins() {
+        return this.axiosClient.get("/search/plugins");
+    }
+
+    async installSearchPlugin(url: string) {
+        return this.axiosClient.get(`/search/installPlugin?url=${url}`);
+    }
+
+    async uninstallSearchPlugin(name: string) {
+        return this.axiosClient.get(`/search/uninstallPlugin?name=${name}`);
+    }
+
+    async enableSearchPlugin(name: string) {
+        return this.axiosClient.get(`/search/enablePlugin?name=${name}`);
+    }
+
+    async updateSearchPlugins() {
+        return this.axiosClient.get("/search/updatePlugins");
+    }
 }
 
 export default Qbittorrent;
